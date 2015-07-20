@@ -1,0 +1,112 @@
+<atlassian-plugin key="${project.groupId}.${project.artifactId}"
+	name="${project.name}" plugins-version="2">
+	<plugin-info>
+		<description>${project.description}</description>
+		<version>${project.version}</version>
+		<vendor name="${project.organization.name}" url="${project.organization.url}" />
+		<param name="plugin-icon">images/pluginIcon.png</param>
+		<param name="plugin-logo">images/pluginLogo.png</param>
+		<param name="configure.url">/plugins/servlet/aging-plugin/admin</param>
+	</plugin-info>
+
+	<!-- add our i18n resource -->
+	<resource type="i18n" name="i18n" location="aging-plugin" />
+
+	<web-resource name="Aging-Plugin Web Resources" key="aging-plugin-resources">
+		<dependency>com.atlassian.auiplugin:ajs</dependency>
+		<resource type="download" name="aging-plugin.css" location="/css/aging-plugin.css" />
+		<resource type="download" name="aging-plugin.js" location="/js/aging-plugin.js" />
+		<resource type="download" name="images/" location="/images" />
+		<context>atl.general</context>
+	</web-resource>
+
+	<web-resource name="Aging-Plugin Admin Web Resources" key="admin-resources">
+		<dependency>com.atlassian.auiplugin:ajs</dependency>
+		<resource type="download" name="aging-plugin-admin.js" location="/js/aging-plugin-admin.js" />
+	</web-resource>
+	
+	<web-resource name="Aging-Plugin Space Admin Web Resources" key="space-admin-resources">
+		<dependency>com.atlassian.auiplugin:ajs</dependency>
+		<resource type="download" name="aging-plugin-space-admin.js" location="/js/aging-plugin-space-admin.js" />
+	</web-resource>
+
+	<web-panel key="agingPanel" location="atl.general"
+		class="ch.oblivion.confluence.plugins.aging.AgingWebPanel" type="static" />
+
+	<component-import key="userManager"
+		interface="com.atlassian.sal.api.user.UserManager" />
+	<component-import key="loginUriProvider"
+		interface="com.atlassian.sal.api.auth.LoginUriProvider" />
+	<component-import key="renderer"
+		interface="com.atlassian.templaterenderer.velocity.one.six.VelocityTemplateRenderer" />
+
+	<component-import key="pluginSettingsFactory"
+		interface="com.atlassian.sal.api.pluginsettings.PluginSettingsFactory" />
+	<component-import key="transactionTemplate"
+		interface="com.atlassian.sal.api.transaction.TransactionTemplate" />
+
+	<rest key="rest" path="/aging-admin" version="1.0">
+		<description>Provides REST resources for the admin UI.</description>
+	</rest>
+
+	<servlet key="admin-servlet"
+		class="ch.oblivion.confluence.plugins.aging.admin.AdminServlet">
+		<url-pattern>/aging-plugin/admin</url-pattern>
+	</servlet>
+
+	<web-item key="aging-plugin-admin" name="Aging Admin" section="system.admin/configuration" weight="10">
+		<description>Link to aging-admin page.</description>
+		<label key="aging.admin.label" />
+		<link linkId="aging-admin-link">/plugins/servlet/aging-plugin/admin</link>
+	</web-item>
+
+	<!-- Item in Space Tools -->
+	<web-item key="aging-plugin-space-admin" name="Aging plugin space manager"
+		section="system.space.tools/addons" weight="100">
+		<label key="aging.plugin.space.admin" />
+		<link linkId="aging.plugin.space.admin">/plugins/${project.artifactId}/aging-space-admin.action?key=$generalUtil.urlEncode($helper.spaceKey)
+		</link>
+		<conditions type="AND">
+			<condition
+				class="com.atlassian.confluence.plugin.descriptor.web.conditions.SpacePermissionCondition">
+				<param name="permission">administer</param>
+			</condition>
+			<condition
+				class="com.atlassian.confluence.plugin.descriptor.web.conditions.SpaceSidebarCondition" />
+		</conditions>
+	</web-item>
+	<!-- Item in Space Admin (for Doc Theme) -->
+	<web-item key="aging-plugin-space-admin-2" name="Aging plugin space manager"
+		section="system.space.admin/addons" weight="100">
+		<label key="aging.plugin.space.admin" />
+		<link linkId="aging.plugin.space.admin">/plugins/${project.artifactId}/aging-space-admin.action?key=$generalUtil.urlEncode($helper.spaceKey)
+		</link>
+		<conditions type="AND">
+			<condition
+				class="com.atlassian.confluence.plugin.descriptor.web.conditions.SpacePermissionCondition">
+				<param name="permission">administer</param>
+			</condition>
+			<condition
+				class="com.atlassian.confluence.plugin.descriptor.web.conditions.SpaceSidebarCondition"
+				invert="true" />
+		</conditions>
+	</web-item>
+
+	<xwork name="Aging Space Config Action" key="aging-plugin-space-admin-action">
+		<description>Aging Space Config Action</description>
+		<package name="aging-plugin-space-admin-package" extends="default"
+			namespace="/plugins/${project.artifactId}">
+			<default-interceptor-ref name="validatingStack" />
+			<action name="aging-space-admin"
+				class="ch.oblivion.confluence.plugins.aging.admin.space.AgingSpaceAdminAction">
+				<result name="input" type="velocity">/templates/aging-space-admin.vm
+				</result>
+				<result name="success" type="velocity">/templates/aging-space-admin.vm
+				</result>
+			</action>
+		</package>
+	</xwork>
+
+	<!-- import from the product container -->
+	<component-import key="applicationProperties" interface="com.atlassian.sal.api.ApplicationProperties" />
+</atlassian-plugin>

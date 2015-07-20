@@ -1,0 +1,47 @@
+<html>
+    <head>
+        <title>$action.getText("aging.plugin.space.manager")</title>
+        <meta name="decorator" content="main"/>
+        $webResourceManager.requireResource("ch.oblivion.confluence-plugins.aging-plugin:space-admin-resources")
+    </head>
+    #applyDecorator("root")
+        #decoratorParam("helper" $action.helper)
+        ## Name of the tab to highlight: space-operations is also valid.
+        #decoratorParam("context" "space-administration")
+ 
+        #applyDecorator ("root")
+            ## The .vmd to use - This one displays both in Space Admin and Space Tools.
+            #decoratorParam ("context" "spaceadminpanel") 
+            ## Key of the web-item to highlight in Space Admin
+            #decoratorParam ("selection" "aging-plugin-space-admin-2") 
+            ## Key of the web-item to highlight in Space Tools
+            #decoratorParam ("selectedSpaceToolsWebItem" "aging-plugin-space-admin")
+            #decoratorParam ("helper" $action.helper)
+            <body>
+                <form id="agingadmin" class="aui">
+			      <div class="field-group">
+			        <label for="useMaster">Use defaults</label>
+			        <input class="checkbox" type="checkbox" id="useMaster" name="useMaster">
+			      </div>
+			      <div class="field-group">
+			        <label for="periodType">Period Type</label>
+			        <select id="periodType" name="periodType" class="select">
+			          <option value="12">Minute</option>
+					  <option value="10">Hour</option>
+					  <option value="6">Day</option>
+					  <option value="2">Month</option>
+					  <option value="1">Year</option>
+					</select>
+			      </div>
+			      <div class="field-group">
+			        <label for="periodAmount">Period Amount</label>
+			        <input type="text" id="periodAmount" name="periodAmount" class="text">
+			      </div>
+			      <div class="field-group">
+			        <input type="submit" value="Save" class="button">
+			      </div>
+			    </form>
+            </body>
+        #end
+    #end
+</html>

@@ -1,0 +1,1 @@
+copy *.properties ..\target\confluence\webapp\WEB-INF\classes

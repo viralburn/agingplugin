@@ -1,0 +1,32 @@
+<html>
+  <head>
+    <title>Aging Plugin Admin</title>
+    <meta name="decorator" content="atl.admin">
+    $webResourceManager.requireResource("ch.oblivion.confluence-plugins.aging-plugin:admin-resources")
+  </head>
+  <body>
+    <form id="agingadmin" class="aui">
+      <div class="field-group">
+        <label for="periodType">Period Type</label>
+        <select id="periodType" name="periodType" class="select">
+          <option value="12">Minute</option>
+		  <option value="10">Hour</option>
+		  <option value="6">Day</option>
+		  <option value="2">Month</option>
+		  <option value="1">Year</option>
+		</select>
+      </div>
+      <div class="field-group">
+        <label for="periodAmount">Period Amount</label>
+        <input type="text" id="periodAmount" name="periodAmount" class="text">
+      </div>
+      <div class="field-group">
+        <label for="ignoreLabel">Ignore Label</label>
+        <input type="text" id="ignoreLabel" name="ignoreLabel" class="text">
+      </div>
+      <div class="field-group">
+        <input type="submit" value="Save" class="button">
+      </div>
+    </form>
+  </body>
+</html>
