@@ -1,4 +1,29 @@
-You have successfully created an Atlassian Plugin!
+#Aging Plugin
+
+This is a plugin for the Atlassian Confluence WIKI. http://www.oblivion.ch/aging-plugin/
+
+Allows pages to be marked as outdated if not edited within a configured period of time. This is not under active development as this was created for a specific use case, but may be useful to others. 
+
+#Usage
+
+Global Configurations
+
+The global configurations can be found under : Confluence Admin -> Aging Plugin Configuration 
+- Period Type : Set the period type to use to check for outdated pages
+- Period Amount : Set the number days/months/years as elapsed time since the last modification
+- Ignore Label : Set a label to be used on pages that should not be marked (eg. unchanging documentation)
+
+
+Space Configurations
+
+The Space configurations can be found under : Space Admin -> Addons -> Aging Plugin Configuration. 
+These changes are specific to the space. 
+- Use default : If set, will ignore any settings on this page and will use the global configuration
+- Period Type : Set the period type to use to check for outdated pages
+- Period Amount : Set the number days/months/years as elapsed time since the last modification
+
+
+#SDK Commands
 
 Here are the SDK commands you'll use immediately:
 
